@@ -6,31 +6,6 @@
     <body>
         <h1>Orders</h1>
         <main id="main_id"></main>
-        <script>
-            fetch("orders.json")
-            .then(response => response.json())
-            .then(data => {
-                obj=JSON.parse(JSON.stringify(data))
-                var i,j;
-                let output=``
-                var array = new Array();
-
-
-                for( i=0; i<data.mvPurchaseOrders.length; i++){
-                    array.push(data.mvPurchaseOrders[i])
-                }
-                console.log(array[0].PurchaseOrderNo)
-                
-                for( j=0; j<array.length;j++){
-                    output +=` 
-                    <section>
-                        <label> ${array[j].PurchaseOrderTypeAbbreviation}<label> -
-                        <label> ${array[j].PurchaseOrderNo}<label>
-                    </section>
-                        `; 
-                }
-                 document.getElementById('main_id').innerHTML = output
-            })
-        </script>
+        <script src="script.js"> </script> 
     </body>
 </html>
