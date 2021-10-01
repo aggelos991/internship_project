@@ -17,7 +17,7 @@ function parse(){
             for( j=0; j<array.length;j++){
                 output +=` 
                     <section>
-                        <a href="order_page.html" target="popup" onclick="open_window(${array[j].PurchaseOrderNo})"> ${array[j].PurchaseOrderTypeAbbreviation} - ${array[j].PurchaseOrderNo}<a>
+                        <a href="order_page.html" target="popup" onclick="open_window(${array[j].PurchaseOrderNo})"> ${array[j].PurchaseOrderTypeAbbreviation} - ${array[j].PurchaseOrderNo}<a><br><br>
                     </section>
                         `; 
             }
@@ -40,20 +40,42 @@ function parse(){
     function show_order(){
         array=JSON.parse(localStorage.getItem("order_array"));
         order_no= localStorage.getItem("order_no") 
-        var i;
+        var i,j;
         let output=``
+        console.log(array[0].PurchaseOrderDetails[0].PurchaseOrderRowProductSKU)
+        for(i=0;i<array.length;i++){
+                if(array[i].PurchaseOrderNo == order_no){
+                    output +=`
+                    <section> 
+                        <label>PO Address:</label>  ${array[i].PurchaseOrderAddress}<br><br>
+                        <label>PO Contact Person: </label>  ${array[i].PurchaseOrderContactPerson} <br><br>
+                        <label>PO Status: </label> ${array[i].PurchaseOrderStatus}<br><br> 
 
-         for(i=0;i<array.length;i++){
-            if(array[i].PurchaseOrderNo == order_no){
-                output +=`
-                <section> 
-                    <label>PO Address:</label>  ${array[i].PurchaseOrderAddress}<br><br>
-                    <label>PO Contact Person: </label>  ${array[i].PurchaseOrderContactPerson} 
-                </section>
-                `
-                document.getElementById('order_main_id').innerHTML = output 
+                         <table>
+                            <tr>
+                                <th> Product SKU </th> 
+                                <th> Quantity Ordered </th>
+                                <th> Unit Price </th>
+                                <th> Total Amount </th>
+                            </tr>`
 
-            }
+                for(j=0;j<array[i].PurchaseOrderDetails.length;j++){
+                    output+=`
+                        <tr>
+                            <th>${array[i].PurchaseOrderDetails[j].PurchaseOrderRowProductSKU}</th>
+                            <th>${array[i].PurchaseOrderDetails[j].PurchaseOrderRowQuantity}</th>
+                            <th>${array[i].PurchaseOrderDetails[j].PurchaseOrderRowUnitPriceWithoutTaxOrDiscount}</th>
+                            <th>${array[i].PurchaseOrderDetails[j].PurchaseOrderRowTotalAmount}</th>    
+                        </tr>         
+                    `
+                }
+
+                     output+=`    
+                        </table> 
+                    </section>
+                    `
+                }
+                document.getElementById('order_main_id').innerHTML = output         
         } 
-
+        
     }
